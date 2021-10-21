@@ -1,6 +1,8 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu16.04
+# FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu16.04
+FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu18.04
 
 #install python3.8
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/London"
 RUN apt-get update
 RUN apt-get install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
@@ -17,6 +19,7 @@ RUN rm get-pip.py
 RUN apt-get install ffmpeg git -y
 COPY _requirements_base.txt /opt/
 COPY requirements_nvidia.txt /opt/
+
 RUN python3.8 -m pip --no-cache-dir install -r /opt/requirements_nvidia.txt && rm /opt/_requirements_base.txt && rm /opt/requirements_nvidia.txt
 
 RUN python3.8 -m pip install jupyter matplotlib
